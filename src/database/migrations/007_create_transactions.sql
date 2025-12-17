@@ -1,0 +1,12 @@
+CREATE TYPE transaction_type AS ENUM ('TOPUP', 'PAYMENT');
+
+CREATE TABLE IF NOT EXISTS transactions (
+    id BIGSERIAL PRIMARY KEY,
+    account_id BIGINT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+    invoice_number VARCHAR(50) NOT NULL UNIQUE,
+    type transaction_type NOT NULL,
+    description TEXT,
+    amount NUMERIC(15, 2) NOT NULL,
+    created_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

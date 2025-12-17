@@ -18,6 +18,7 @@
     "dev": "tsx watch src/server/server.ts",
     "build": "tsc",
     "start": "node dist/server/server.js",
+    "migrate": "tsx src/database/migrations/index.ts",
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "test:coverage": "NODE_ENV=test jest --coverage"
