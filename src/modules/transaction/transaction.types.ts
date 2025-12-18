@@ -14,6 +14,7 @@ export interface TransactionParams {
   type: TransactionTypeEnum;
   description: string;
   amount: number;
+  serviceId?: number;
 }
 
 export interface PaymentTransactionResponse {

@@ -10,15 +10,16 @@ export const TransactionRepository = {
     params: TransactionParams,
     client?: PoolClient
   ): Promise<TransactionView | null> {
-    const { accountId, invoiceNumber, type, description, amount } = params;
+    const { accountId, invoiceNumber, type, description, amount, serviceId } =
+      params;
 
     const res = await query<TransactionView>(
       `
-        INSERT INTO transactions (account_id, invoice_number, type, description, amount)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO transactions (account_id, invoice_number, type, description, amount, service_id)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING invoice_number, type, description, amount, created_on;
       `,
-      [accountId, invoiceNumber, type, description, amount],
+      [accountId, invoiceNumber, type, description, amount, serviceId],
       client
     );
 

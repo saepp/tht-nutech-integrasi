@@ -9,7 +9,7 @@ export const ServiceRepository = {
   ): Promise<ServiceView | null> {
     const res = await query<ServiceView>(
       `
-        SELECT code, name, price
+        SELECT id, code, name, price
         FROM services
         WHERE code = $1;
       `,

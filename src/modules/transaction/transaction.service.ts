@@ -54,6 +54,7 @@ export const TransactionService = {
           type: TransactionTypeEnum.PAYMENT,
           description: service.name,
           amount: servicePrice,
+          serviceId: service.id,
         };
 
         const transaction = await TransactionRepository.createTransaction(
