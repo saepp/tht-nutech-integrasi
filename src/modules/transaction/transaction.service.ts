@@ -7,7 +7,7 @@ import type {
 import { AuthRepository } from "../auth/auth.repository.js";
 import { ApiError } from "@/utils/errors.js";
 import { AccountRepository } from "../account/account.repository.js";
-import { ServiceRepository } from "../services/service.repository.js";
+import { ServiceRepository } from "../services/services.repository.js";
 import { TransactionRepository } from "./transaction.repository.js";
 import { generateInvoiceNumber } from "@/utils/invoice.js";
 import { TransactionTypeEnum } from "./transaction.enums.js";

@@ -1,8 +1,21 @@
 import type { PoolClient } from "pg";
-import type { ServiceView } from "./service.types.js";
+import type { GetAllServiceResponse, ServiceView } from "./services.types.js";
 import { query } from "@/database/index.js";
 
 export const ServiceRepository = {
+  async getAllServices(client?: PoolClient): Promise<ServiceView[]> {
+    const res = await query<ServiceView>(
+      `
+        SELECT code, name, icon_url, price
+        FROM services;
+      `,
+      [],
+      client
+    );
+
+    return res;
+  },
+
   async getServiceByCode(
     code: string,
     client?: PoolClient
