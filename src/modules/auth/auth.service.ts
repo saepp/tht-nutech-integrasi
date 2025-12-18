@@ -5,6 +5,7 @@ import { comparePassword, hashPassword } from "@/utils/password.js";
 import { ProfileRepository } from "../profile/profile.repository.js";
 import { signToken } from "@/utils/token.js";
 import type { RegisterParams } from "./auth.types.js";
+import { AccountRepository } from "../account/account.repository.js";
 
 export const AuthService = {
   async register(params: RegisterParams): Promise<Boolean> {
@@ -28,6 +29,9 @@ export const AuthService = {
         client
       );
       if (!profile) throw new ApiError("Gagal membuat profil", 104, 500);
+
+      const account = await AccountRepository.createAccount(user.id, client);
+      if (!account) throw new ApiError("Gagal membuat akun", 111, 500);
 
       return true;
     });

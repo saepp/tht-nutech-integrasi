@@ -1,5 +1,6 @@
 import { authMiddleware } from "@/middleware/auth.middleware.js";
 import { errorHandler } from "@/middleware/error.middleware.js";
+import { AccountController } from "@/modules/account/account.controller.js";
 import { AuthController } from "@/modules/auth/auth.controller.js";
 import { ProfileController } from "@/modules/profile/profile.controller.js";
 import express from "express";
@@ -17,6 +18,9 @@ app.post("/login", AuthController.login);
 // PROFILE ROUTES
 app.get("/profile", authMiddleware, ProfileController.getProfile);
 app.put("/profile/update", authMiddleware, ProfileController.updateProfile);
+
+// ACCOUNT ROUTES
+app.get("/balance", authMiddleware, AccountController.getAccountBalance);
 
 app.use(errorHandler);
 
