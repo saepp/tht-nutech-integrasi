@@ -1,8 +1,9 @@
 import { transaction } from "@/database/index.js";
 import { AuthRepository } from "./auth.repository.js";
 import { ApiError } from "@/utils/errors.js";
-import { hashPassword } from "@/utils/password.js";
+import { comparePassword, hashPassword } from "@/utils/password.js";
 import { ProfileRepository } from "../profile/profile.repository.js";
+import { signToken } from "@/utils/token.js";
 
 interface RegisterParams {
   email: string;
@@ -36,5 +37,17 @@ export const AuthService = {
 
       return true;
     });
+  },
+
+  async login(email: string, password: string): Promise<string> {
+    const user = await AuthRepository.findByEmail(email);
+    if (!user) throw new ApiError("Username atau password salah", 103, 401);
+
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid)
+      throw new ApiError("Username atau password salah", 103, 401);
+
+    const token = signToken(user.email);
+    return token;
   },
 };

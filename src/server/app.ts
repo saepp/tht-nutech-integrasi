@@ -9,6 +9,7 @@ app.use(helmet());
 app.use(express.json());
 
 app.post("/registration", AuthController.register);
+app.post("/login", AuthController.login);
 
 app.use(errorHandler);
 
