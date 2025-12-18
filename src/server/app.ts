@@ -3,6 +3,7 @@ import { errorHandler } from "@/middleware/error.middleware.js";
 import { AccountController } from "@/modules/account/account.controller.js";
 import { AuthController } from "@/modules/auth/auth.controller.js";
 import { ProfileController } from "@/modules/profile/profile.controller.js";
+import { TransactionController } from "@/modules/transaction/transaction.controller.js";
 import express from "express";
 import helmet from "helmet";
 
@@ -21,7 +22,16 @@ app.put("/profile/update", authMiddleware, ProfileController.updateProfile);
 
 // ACCOUNT ROUTES
 app.get("/balance", authMiddleware, AccountController.getAccountBalance);
+app.post("/topup", authMiddleware, AccountController.topup);
 
+// TRANSACTION ROUTES
+app.post(
+  "/transaction",
+  authMiddleware,
+  TransactionController.createPaymentTransaction
+);
+
+// ERROR HANDLER
 app.use(errorHandler);
 
 export default app;

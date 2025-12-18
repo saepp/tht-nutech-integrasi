@@ -1,0 +1,2 @@
+ALTER TABLE transactions
+ADD COLUMN service_id BIGINT REFERENCES services(id) ON DELETE SET NULL;
