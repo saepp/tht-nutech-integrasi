@@ -10,7 +10,6 @@ export const errorHandler = (
   _next: NextFunction
 ) => {
   if (err instanceof ZodError) {
-    console.log(err.issues[0]);
     const message = err.issues[0]?.message;
     return sendError(res, 400, 102, message || "Parameter tidak valid");
   }

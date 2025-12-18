@@ -4,13 +4,7 @@ import { ApiError } from "@/utils/errors.js";
 import { comparePassword, hashPassword } from "@/utils/password.js";
 import { ProfileRepository } from "../profile/profile.repository.js";
 import { signToken } from "@/utils/token.js";
-
-interface RegisterParams {
-  email: string;
-  first_name: string;
-  last_name: string;
-  password: string;
-}
+import type { RegisterParams } from "./auth.types.js";
 
 export const AuthService = {
   async register(params: RegisterParams): Promise<Boolean> {
@@ -25,7 +19,7 @@ export const AuthService = {
         hashedPassword,
         client
       );
-      if (!user) throw new ApiError("Gagal membuat user", 103, 500);
+      if (!user) throw new ApiError("Gagal membuat user", 105, 500);
 
       const profile = await ProfileRepository.createProfile(
         user.id,

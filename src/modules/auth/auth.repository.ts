@@ -1,15 +1,6 @@
 import { query } from "@/database/index.js";
 import type { PoolClient } from "pg";
-
-export interface UserRow {
-  id: number;
-  email: string;
-  password: string;
-  created_on: Date;
-  updated_on: Date;
-}
-
-type UserLoginRow = Pick<UserRow, "email" | "password">;
+import type { UserLoginRow, UserRow } from "./auth.types.js";
 
 export const AuthRepository = {
   async findByEmail(
@@ -17,7 +8,7 @@ export const AuthRepository = {
     client?: PoolClient
   ): Promise<UserLoginRow | null> {
     const res = await query<UserLoginRow>(
-      "SELECT email, password FROM users WHERE email = $1",
+      "SELECT id, email, password FROM users WHERE email = $1",
       [email],
       client
     );

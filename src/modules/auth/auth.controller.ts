@@ -4,7 +4,11 @@ import { AuthService } from "./auth.service.js";
 import { sendSuccess } from "@/utils/response.js";
 
 export const AuthController = {
-  async register(req: Request, res: Response, next: NextFunction) {
+  async register(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { email, first_name, last_name, password } = registerSchema.parse(
         req.body
@@ -18,19 +22,19 @@ export const AuthController = {
       });
 
       return sendSuccess(res, "Registrasi berhasil silahkan login", null);
-    } catch (error) {
+    } catch (error: unknown) {
       next(error);
     }
   },
 
-  async login(req: Request, res: Response, next: NextFunction) {
+  async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { email, password } = loginSchema.parse(req.body);
 
       const token = await AuthService.login(email, password);
 
-      return sendSuccess(res, "Login berhasil", { token });
-    } catch (error) {
+      return sendSuccess(res, "Login Sukses", { token });
+    } catch (error: unknown) {
       next(error);
     }
   },
