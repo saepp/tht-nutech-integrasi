@@ -30,6 +30,11 @@ app.post(
   authMiddleware,
   TransactionController.createPaymentTransaction
 );
+app.get(
+  "/transaction/history",
+  authMiddleware,
+  TransactionController.getTransactionHistory
+);
 
 // ERROR HANDLER
 app.use(errorHandler);

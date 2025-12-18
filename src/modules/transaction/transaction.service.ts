@@ -1,5 +1,9 @@
 import { transaction } from "@/database/index.js";
-import type { PaymentTransactionResponse } from "./transaction.types.js";
+import type {
+  HistoryTransactionRecord,
+  HistoryTransactionResponse,
+  PaymentTransactionResponse,
+} from "./transaction.types.js";
 import { AuthRepository } from "../auth/auth.repository.js";
 import { ApiError } from "@/utils/errors.js";
 import { AccountRepository } from "../account/account.repository.js";
@@ -9,6 +13,42 @@ import { generateInvoiceNumber } from "@/utils/invoice.js";
 import { TransactionTypeEnum } from "./transaction.enums.js";
 
 export const TransactionService = {
+  async getHistoryTransactionsByEmail(
+    email: string,
+    offset: number,
+    limit?: number
+  ): Promise<HistoryTransactionResponse> {
+    const user = await AuthRepository.findByEmail(email);
+    if (!user) throw new ApiError("User tidak ditemukan", 106, 404);
+
+    const account = await AccountRepository.getAccountByUserId(user.id);
+    if (!account) throw new ApiError("Akun tidak ditemukan", 107, 404);
+
+    const transactions = await TransactionRepository.getHistoryByAccountId(
+      account.id,
+      offset,
+      limit
+    );
+
+    const responsePayload: HistoryTransactionRecord[] = transactions.map(
+      (tx) => ({
+        invoice_number: tx.invoice_number,
+        transaction_type: tx.type,
+        description: tx.description,
+        total_amount: parseFloat(tx.amount),
+        created_on: tx.created_on,
+      })
+    );
+
+    const response: HistoryTransactionResponse = {
+      offset,
+      limit: limit || transactions.length,
+      records: responsePayload,
+    };
+
+    return response;
+  },
+
   async createPaymentTransaction(
     email: string,
     serviceCode: string

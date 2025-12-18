@@ -6,6 +6,28 @@ import type {
 import { query } from "@/database/index.js";
 
 export const TransactionRepository = {
+  async getHistoryByAccountId(
+    accountId: number,
+    offset: number,
+    limit?: number,
+    client?: PoolClient
+  ): Promise<TransactionView[]> {
+    const res = await query<TransactionView>(
+      `
+        SELECT invoice_number, type, description, amount, created_on
+        FROM transactions
+        WHERE account_id = $1
+        ORDER BY created_on ASC
+        OFFSET $2
+        ${limit ? "LIMIT $3" : ""}
+      `,
+      limit ? [accountId, offset, limit] : [accountId, offset],
+      client
+    );
+
+    return res;
+  },
+
   async createTransaction(
     params: TransactionParams,
     client?: PoolClient

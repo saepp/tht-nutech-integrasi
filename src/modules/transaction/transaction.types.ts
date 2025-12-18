@@ -25,3 +25,17 @@ export interface PaymentTransactionResponse {
   total_amount: number;
   created_on: Date;
 }
+
+export interface HistoryTransactionRecord {
+  invoice_number: string;
+  transaction_type: TransactionTypeEnum;
+  description: string;
+  total_amount: number;
+  created_on: Date;
+}
+
+export interface HistoryTransactionResponse {
+  offset: number;
+  limit: number;
+  records: HistoryTransactionRecord[];
+}
