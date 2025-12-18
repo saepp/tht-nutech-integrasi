@@ -13,4 +13,8 @@ export const env = {
   JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY || "your-default-jwt-public-key",
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || 12 * 60 * 60,
   SALT_ROUNDS: Number(process.env.SALT_ROUNDS) || 10,
+  AWS_REGION: process.env.AWS_REGION || "us-east-1",
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || "",
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || "",
+  AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME || "",
 };

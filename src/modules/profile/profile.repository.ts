@@ -83,4 +83,28 @@ export const ProfileRepository = {
 
     return res[0] || null;
   },
+
+  async updateProfileImage(
+    userId: number,
+    imageUrl: string,
+    client?: PoolClient
+  ): Promise<ProfileView | null> {
+    const res = await query<ProfileView>(
+      `
+      WITH updated AS (
+        UPDATE profiles
+        SET image_url = $1, updated_on = NOW()
+        WHERE user_id = $2
+        RETURNING id, user_id, first_name, last_name, image_url
+      )
+      SELECT usr.email, upd.first_name, upd.last_name, upd.image_url
+      FROM updated AS upd
+      LEFT JOIN users AS usr ON upd.user_id = usr.id
+      `,
+      [imageUrl, userId],
+      client
+    );
+
+    return res[0] || null;
+  },
 };
