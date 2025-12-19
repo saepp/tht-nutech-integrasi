@@ -36,7 +36,7 @@ app.put(
 app.get("/banner", BannerController.getAllBanners);
 
 // SERVICES ROUTES
-app.get("/services", ServiceController.getAllServices);
+app.get("/services", authMiddleware, ServiceController.getAllServices);
 
 // ACCOUNT ROUTES
 app.get("/balance", authMiddleware, AccountController.getAccountBalance);
